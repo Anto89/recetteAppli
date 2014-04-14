@@ -17,24 +17,37 @@ import javax.persistence.Table;
 @Table(name = "RECETTE")
 public class Recette implements Serializable {
 	private static final long serialVersionUID = 1293602953091879759L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="recette_seq_gen")
-	@SequenceGenerator(name="recette_seq_gen", sequenceName="RECETTE_SEQ")
-	@Column(name="RECETTE_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "recette_seq_gen")
+	@SequenceGenerator(name = "recette_seq_gen", sequenceName = "RECETTE_SEQ")
+	@Column(name = "RECETTE_ID")
 	private Long id;
-	@Column(name="NOM")
-	private String name;
-	
+
+	@Column(name = "CATEGORIE")
+	private String categorie;
+
+	@Column(name = "NOM")
+	private String nom;
+
+	@Column(name = "DESCRIPTION")
+	private String description;
+
+	@Column(name = "DIFFICULTE")
+	private int difficulte;
+
+	@Column(name = "AVIS")
+	private int avis;
+
 	// Assoc.
-	@OneToMany(mappedBy="pk.recette")
+	@OneToMany(mappedBy = "pk.recette")
 	private List<RecetteIngredient> ingredients = new ArrayList<RecetteIngredient>();
 
 	public Recette() {
 	}
-	
-	public Recette(String name) {
-		this.name = name;
+
+	public Recette(String nom) {
+		this.nom = nom;
 	}
 
 	public Long getId() {
@@ -45,17 +58,49 @@ public class Recette implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getCategorie() {
+		return categorie;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getDifficulte() {
+		return difficulte;
+	}
+
+	public void setDifficulte(int difficulte) {
+		this.difficulte = difficulte;
+	}
+
+	public int getAvis() {
+		return avis;
+	}
+
+	public void setAvis(int avis) {
+		this.avis = avis;
 	}
 
 	@Override
 	public String toString() {
-		return "Recette [id=" + id + ", name=" + name + "]";
+		return "Recette [id=" + id + ", nom=" + nom + "]";
 	}
 
 	public List<RecetteIngredient> getIngredients() {

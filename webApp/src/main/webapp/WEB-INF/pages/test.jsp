@@ -1,12 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html ng-app>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.3/angular.min.js"></script>
+  <script>
+  function testController($scope, $http) {
+		    $http.get('http://localhost:8080/client-web/testJSON').success(function(data) {
+		            $scope.test = data;
+		        });
+		}
+	</script>
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Message : ${message}</h1>
+	
+	<div ng-controller="testController">
+		<p>Message : {{test.message}}</p>
+    </div>
 </body>
 </html>

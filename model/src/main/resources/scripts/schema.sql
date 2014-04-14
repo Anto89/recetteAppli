@@ -8,7 +8,11 @@ drop sequence INGREDIENT_SEQ if exists;
 create table RECETTE
 (
 	RECETTE_ID bigint not null primary key,
-	NOM varchar(150)
+	CATEGORIE varchar(30),
+	NOM varchar(30),
+	DESCRIPTION longvarchar,
+	DIFFICULTE int,
+	AVIS int
 );
 create sequence RECETTE_SEQ start with 1 increment by 1;
 
