@@ -1,0 +1,24 @@
+<div class="col-sm-5 col-md-5 pull-right">
+  
+  <div class="form-group">
+    <label for="query" class="col-sm-4 control-label">Recherche</label>
+    <div class="col-sm-5">
+      <input class="form-control" ng-model="query" name="query" placeholder="Critère" />
+    </div>
+  </div>
+  
+ </div>
+<h2>Index des recettes</h2>
+
+<table class="table table-bordered table-striped">
+    <tr ng-repeat="recette in recettes | filter:query">
+        <td>
+            <a ng-href="#!/{{recette.id}}">{{recette.nom}}</a>
+            <a href="#" ng-click="deleteRecette(recette);" class="btn btn-danger btn-xs pull-right">Delete</a>
+            <a ng-href="#!/{{recette.id}}/edit" class="btn btn-primary btn-xs pull-right" style="margin-right:8px;">Edit</a>
+        </td>
+    </tr>
+</table>
+
+<hr/>
+<a href="#!/add" class="btn btn-primary">Ajouter une nouvelle recette</a>

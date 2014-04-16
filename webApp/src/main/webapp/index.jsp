@@ -1,18 +1,28 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="recette.app">
 <head>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.3/angular.min.js"></script>
-  <script>
-  angular.module("recetteApp", []).controller("testController", function($scope) {
-    $scope.test = {};
-    $scope.test.message = "Test avec Angular JS";
-    });
-	</script>
+    <title>Recette Appli with Spring MVC & AngularJS</title>
+    
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/recette.js"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
 </head>
-<body ng-app="recetteApp">
-	<div ng-controller="testController">
-		<h2>{{ test.message }} !</h2>
-		
-		<a href="test">Test Spring Rest + Angular</a>
-	</div>
+<body>
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>Appli démo <span class="glyphicon glyphicon-check pull-right"></span></h1>
+        <p class="text-muted">Recette Appli with Spring MVC & AngularJS</p>
+    </div>
+
+    <div ng-view></div>
+
+</div>
 </body>
 </html>

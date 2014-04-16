@@ -9,4 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecetteDao {
 	List<Recette> getAll();
+	
+	Recette getById(Long id);
+	
+	void persist(Recette recette);
+	
+	void remove(Long id);
+	
+	void update(Recette recette);
 }

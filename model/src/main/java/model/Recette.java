@@ -13,14 +13,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "RECETTE")
 public class Recette implements Serializable {
 	private static final long serialVersionUID = 1293602953091879759L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "recette_seq_gen")
-	@SequenceGenerator(name = "recette_seq_gen", sequenceName = "RECETTE_SEQ")
+	@SequenceGenerator(name = "recette_seq_gen", sequenceName = "RECETTE_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recette_seq_gen")
 	@Column(name = "RECETTE_ID")
 	private Long id;
 
@@ -40,6 +42,7 @@ public class Recette implements Serializable {
 	private int avis;
 
 	// Assoc.
+	@JsonIgnore
 	@OneToMany(mappedBy = "pk.recette")
 	private List<RecetteIngredient> ingredients = new ArrayList<RecetteIngredient>();
 

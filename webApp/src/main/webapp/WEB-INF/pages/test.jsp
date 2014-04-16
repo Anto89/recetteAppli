@@ -8,12 +8,12 @@
 		        });
 		}
 	</script>
-<title>Insert title here</title>
+<title>Page de test</title>
 </head>
 <body>
-	
+	<h2>Spring MCV Ok</h2>
 	<div ng-controller="testController">
-		<p>Message : {{test.message}}</p>
+		<p>{{test.message}}</p>
     </div>
 </body>
 </html>

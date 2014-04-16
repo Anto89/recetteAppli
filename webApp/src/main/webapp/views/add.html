@@ -1,0 +1,32 @@
+<h2>Editer la recette</h2>
+
+<form>
+    <div class="form-group">
+        <label for="nom">Nom</label>
+        <input id="nom" class="form-control" type="text" name="nom" ng-model="recette.nom"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="categorie">Catégorie</label>
+        <input id="categorie" class="form-control" type="text" name="categorie" ng-model="recette.categorie"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="difficulte">Difficulté</label>
+        <input id="difficulte" class="form-control" type="text" name="difficulte" ng-model="recette.difficulte"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="avis">Avis</label>
+        <input id="avis" class="form-control" type="text" name="avis" ng-model="recette.avis"/>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control" name="description" ng-model="recette.description"></textarea>
+    </div>
+
+    <hr/>
+    <button ng-click="saveRecette()" class="btn btn-success">Sauvegarder</button>
+    <a href="#!/list" class="btn btn-default">Annuler</a>
+</form>
