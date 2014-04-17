@@ -1,19 +1,27 @@
-<div class="col-sm-5 col-md-5 pull-right">
-  
+<div class="form-horizontal">
   <div class="form-group">
-    <label for="query" class="col-sm-4 control-label">Recherche</label>
-    <div class="col-sm-5">
+  	<label  class="col-sm-4">Index des recettes</label>
+    <label class="col-sm-2 control-label" for="query">Recherche</label>
+    <div class="col-sm-2">
       <input class="form-control" ng-model="query" name="query" placeholder="Critère" />
     </div>
+    <label class="col-sm-2 control-label" for="order">Trié par</label>
+    <div class="col-sm-2">
+      <select class="form-control" ng-model="order" name="order" >
+      	<option value="nom">Nom</option>
+      	<option value="categorie">Catégorie</option>
+      	<option value="difficulte">Difficulté</option>
+      </select>
+    </div>
   </div>
-  
- </div>
-<h2>Index des recettes</h2>
+</div>
 
 <table class="table table-bordered table-striped">
-    <tr ng-repeat="recette in recettes | filter:query">
+    <tr ng-repeat="recette in recettes | filter:query | orderBy:order" >
         <td>
+        	<a href="#!/{{recette.id}}" style="margin-right:50px"><img ng-src=".{{recette.imagePath}}" class="img-rounded icon"></a>
             <a ng-href="#!/{{recette.id}}">{{recette.nom}}</a>
+            <span>{{recette.vegetarien | regime}}</span>
             <a href="#" ng-click="deleteRecette(recette);" class="btn btn-danger btn-xs pull-right">Delete</a>
             <a ng-href="#!/{{recette.id}}/edit" class="btn btn-primary btn-xs pull-right" style="margin-right:8px;">Edit</a>
         </td>

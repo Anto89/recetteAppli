@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html ng-app="recette.app">
+<html lang="fr" ng-app="recetteApp">
 <head>
     <title>Recette Appli with Spring MVC & AngularJS</title>
     
     <meta charset="UTF-8">
+    
+    <script type="text/javascript" src="js/libs/angular.js"></script>
+    <script type="text/javascript" src="js/libs/angular-route.js"></script>
+    <script type="text/javascript" src="js/libs/angular-resource.js"></script>
+    
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+    <script type="text/javascript" src="js/filters.js"></script>
+    <script type="text/javascript" src="js/services.js"></script>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-    <script type="text/javascript" src="js/recette.js"></script>
-
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
+    <link href="css/animations.css" rel="stylesheet" media="screen">
+    
+    <style type="text/css">
+    .icon{
+    	height: 22px;
+    	width: auto;
+    }
+    </style>
 </head>
 <body>
 <div class="container">

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,11 +27,17 @@ public class Recette implements Serializable {
 	@Column(name = "RECETTE_ID")
 	private Long id;
 
-	@Column(name = "CATEGORIE")
-	private String categorie;
-
 	@Column(name = "NOM")
 	private String nom;
+	
+	@Column(name="IMAGE")
+	private byte[] imageFile;
+	
+	@Transient
+	private String imagePath;
+	
+	@Column(name = "CATEGORIE")
+	private String categorie;
 
 	@Column(name = "DESCRIPTION")
 	private String description;
@@ -40,6 +47,9 @@ public class Recette implements Serializable {
 
 	@Column(name = "AVIS")
 	private int avis;
+	
+	@Column(name="IS_VEGETARIEN")
+	private boolean vegetarien;
 
 	// Assoc.
 	@JsonIgnore
@@ -47,6 +57,7 @@ public class Recette implements Serializable {
 	private List<RecetteIngredient> ingredients = new ArrayList<RecetteIngredient>();
 
 	public Recette() {
+		this.imagePath = "/image/recette.png";
 	}
 
 	public Recette(String nom) {
@@ -101,16 +112,40 @@ public class Recette implements Serializable {
 		this.avis = avis;
 	}
 
-	@Override
-	public String toString() {
-		return "Recette [id=" + id + ", nom=" + nom + "]";
-	}
-
 	public List<RecetteIngredient> getIngredients() {
 		return ingredients;
 	}
-
+	
 	public void setIngredients(List<RecetteIngredient> ingredients) {
 		this.ingredients = ingredients;
+	}
+	
+	public byte[] getImageFile() {
+		return imageFile;
+	}
+	
+	public void setImageFile(byte[] image) {
+		this.imageFile = image;
+	}
+	
+	public String getImagePath() {
+		return imagePath;
+	}
+	
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	
+	public boolean isVegetarien() {
+		return vegetarien;
+	}
+	
+	public void setVegetarien(boolean vegetarien) {
+		this.vegetarien = vegetarien;
+	}
+	
+	@Override
+	public String toString() {
+		return "Recette [id=" + id + ", nom=" + nom + "]";
 	}
 }
