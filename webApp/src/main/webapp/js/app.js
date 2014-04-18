@@ -1,4 +1,4 @@
-var app = angular.module('recetteApp', ['ngResource', 'ngRoute', 'controller', 'filters', 'services']);
+var app = angular.module('recetteApp', ['ngResource', 'ngRoute', 'controller', 'filters', 'services', 'ui.bootstrap']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/list', {templateUrl: 'views/summary.html', controller: 'ListController'});

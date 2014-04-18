@@ -22,6 +22,13 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
             $location.path('/list');
         });
     };
+    
+    $scope.rateDifficulteMax = 5;
+    $scope.hoveringOver = function(value) {
+        $scope.overStar = value;
+        $scope.percent = 100 * (value / $scope.rateDifficulteMax);
+        console.log($scope.percent);
+      };
 }]);
 
 app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location) {

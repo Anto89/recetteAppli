@@ -13,7 +13,8 @@
     
     <div class="form-group">
         <label for="difficulte">Difficulté</label>
-        <input id="difficulte" class="form-control" type="text" name="difficulte" ng-model="recette.difficulte"/>
+        <rating value="difficulte" max="rateDifficulteMax" readonly="false" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+        <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
     </div>
     
     <div class="form-group">
