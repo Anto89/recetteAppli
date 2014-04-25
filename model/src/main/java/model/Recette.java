@@ -29,13 +29,13 @@ public class Recette implements Serializable {
 
 	@Column(name = "NOM")
 	private String nom;
-	
-	@Column(name="IMAGE")
+
+	@Column(name = "IMAGE")
 	private byte[] imageFile;
-	
+
 	@Transient
 	private String imagePath;
-	
+
 	@Column(name = "CATEGORIE")
 	private String categorie;
 
@@ -47,12 +47,11 @@ public class Recette implements Serializable {
 
 	@Column(name = "AVIS")
 	private int avis;
-	
-	@Column(name="IS_VEGETARIEN")
+
+	@Column(name = "IS_VEGETARIEN")
 	private boolean vegetarien;
 
 	// Assoc.
-	@JsonIgnore
 	@OneToMany(mappedBy = "pk.recette")
 	private List<RecetteIngredient> ingredients = new ArrayList<RecetteIngredient>();
 
@@ -112,38 +111,48 @@ public class Recette implements Serializable {
 		this.avis = avis;
 	}
 
-	public List<RecetteIngredient> getIngredients() {
+	@JsonIgnore
+	public List<RecetteIngredient> getQuantiteIngredient() {
 		return ingredients;
 	}
-	
+
+	@JsonIgnore
+	public List<Ingredient> getIngredients() {
+		List<Ingredient> ingdts = new ArrayList<>(ingredients.size());
+		for (RecetteIngredient recIng : ingredients) {
+			ingdts.add(recIng.getPk().getIngredient());
+		}
+		return ingdts;
+	}
+
 	public void setIngredients(List<RecetteIngredient> ingredients) {
 		this.ingredients = ingredients;
 	}
-	
+
 	public byte[] getImageFile() {
 		return imageFile;
 	}
-	
+
 	public void setImageFile(byte[] image) {
 		this.imageFile = image;
 	}
-	
+
 	public String getImagePath() {
 		return imagePath;
 	}
-	
+
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	
+
 	public boolean isVegetarien() {
 		return vegetarien;
 	}
-	
+
 	public void setVegetarien(boolean vegetarien) {
 		this.vegetarien = vegetarien;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Recette [id=" + id + ", nom=" + nom + "]";

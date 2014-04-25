@@ -1,6 +1,8 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import model.Recette;
 
@@ -17,4 +19,6 @@ public interface RecetteDao {
 	void remove(Long id);
 	
 	void update(Recette recette);
+	
+	Map<String, BigDecimal> getIngredients(Long recetteId);
 }

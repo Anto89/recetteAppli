@@ -17,6 +17,8 @@ app.controller('ListController', ['$scope', 'Recette', '$location', function ($s
 
 app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location) {
     $scope.recette = new Recette();
+    $scope.ingredients = [];
+    $scope.recette.ingdts = $scope.ingredients;
     $scope.saveRecette = function () {
     	Recette.save($scope.recette, function () {
             $location.path('/list');
@@ -27,11 +29,16 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
     $scope.hoveringOver = function(value) {
         $scope.overStar = value;
         $scope.percent = 100 * (value / $scope.rateDifficulteMax);
-        console.log($scope.percent);
       };
+      
+    $scope.unites = [{type:'volume', nom:'litre'}, {type:'poids', nom:'gramme'}];
+    $scope.addIngredient = function() {
+    	$scope.ingredients.push($scope.newIngredient);
+    	$scope.newIngredient = null;
+    }
 }]);
 
-app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location) {
+app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location, $http) {
     $scope.recette = Recette.get({id: $routeParams.id});
     $scope.saveRecette = function () {
         Recette.update($scope.recette, function () {
@@ -40,6 +47,9 @@ app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$locatio
     };
 }]);
 
-app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', function ($scope, Recette, $routeParams) {
+app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', 'Ingredient', function ($scope, Recette, $routeParams, Ingredient) {
     $scope.recette = Recette.get({id: $routeParams.id});
+    Ingredient.getIngredients($routeParams.id).then(function(ingdts) {
+    	$scope.ingredients = ingdts;
+    });
 }]);

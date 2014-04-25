@@ -32,4 +32,12 @@ public class RecetteIngredient implements Serializable {
 	public void setQuantite(BigDecimal quantite) {
 		this.quantite = quantite;
 	}
+
+	public RecetteIngredientId getPk() {
+		return pk;
+	}
+
+	public void setPk(RecetteIngredientId pk) {
+		this.pk = pk;
+	}
 }

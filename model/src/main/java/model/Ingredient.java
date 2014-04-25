@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "INGREDIENT")
 public class Ingredient implements Serializable {
@@ -25,7 +27,7 @@ public class Ingredient implements Serializable {
 	private Long id;
 	
 	@Column(name="NOM")
-	private String name;
+	private String nom;
 	
 	// Assoc.
 	@OneToMany(mappedBy="pk.ingredient")
@@ -42,19 +44,20 @@ public class Ingredient implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	@Override
 	public String toString() {
-		return "Ingredient [id=" + id + ", name=" + name + "]";
+		return "Ingredient [id=" + id + ", nom=" + nom + "]";
 	}
 
+	@JsonIgnore
 	public List<RecetteIngredient> getRecettes() {
 		return recettes;
 	}

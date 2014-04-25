@@ -1,6 +1,8 @@
 package controller;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import model.Recette;
 
@@ -22,8 +24,7 @@ public class RecetteController {
 	RecetteDao recetteDao;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/recettes", produces = "application/json")
-	public @ResponseBody
-	List<Recette> getRecettes() {
+	public @ResponseBody List<Recette> getRecettes() {
 		return recetteDao.getAll();
 	}
 
@@ -34,8 +35,7 @@ public class RecetteController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}", produces = "application/json")
-	public @ResponseBody
-	Recette getRecette(@PathVariable Long id) {
+	public @ResponseBody Recette getRecette(@PathVariable Long id) {
 		return recetteDao.getById(id);
 	}
 
@@ -49,5 +49,10 @@ public class RecetteController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateRecette(@RequestBody Recette recette) {
 		recetteDao.update(recette);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}/ingredients", produces = "application/json")
+	public @ResponseBody Map<String, BigDecimal> getIngredientsForRecette(@PathVariable Long id) {
+		return recetteDao.getIngredients(id);
 	}
 }

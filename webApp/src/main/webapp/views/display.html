@@ -1,4 +1,12 @@
-<h2>Détail</h2>
+<div class="row">
+	<h2 class="col-md-8">Détail</h2>
+	<fieldset class="col-md-4 span6">
+		<legend>Ingrédients</legend>
+		<ul data-ng-repeat="(ingredient, quantite) in ingredients">
+			<li>{{quantite}} <span>-</span> {{ingredient}}</li>
+		</ul>
+	</fieldset>
+</div>
 
 <div class="panel">
     <div class="panel-heading">{{recette.nom}}</div>
