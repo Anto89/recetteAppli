@@ -12,8 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "RECETTE_INGREDIENT")
-@AssociationOverrides({
-		@AssociationOverride(name = "pk.recette", joinColumns = @JoinColumn(name = "RECETTE_ID")),
+@AssociationOverrides({ @AssociationOverride(name = "pk.recette", joinColumns = @JoinColumn(name = "RECETTE_ID")),
 		@AssociationOverride(name = "pk.ingredient", joinColumns = @JoinColumn(name = "INGREDIENT_ID")) })
 public class RecetteIngredient implements Serializable {
 	private static final long serialVersionUID = 1293602953091879759L;
@@ -23,6 +22,11 @@ public class RecetteIngredient implements Serializable {
 	private BigDecimal quantite;
 
 	public RecetteIngredient() {
+	}
+
+	public RecetteIngredient(RecetteIngredientId recIngId, BigDecimal quantite) {
+		this.pk = recIngId;
+		this.quantite = quantite;
 	}
 
 	public BigDecimal getQuantite() {

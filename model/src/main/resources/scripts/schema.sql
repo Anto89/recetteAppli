@@ -8,7 +8,7 @@ drop sequence INGREDIENT_SEQ if exists;
 create table RECETTE
 (
 	RECETTE_ID bigint not null primary key,
-	NOM varchar(30),
+	NOM varchar(30) unique,
 	IMAGE blob(1M),
 	CATEGORIE varchar(30),
 	DESCRIPTION longvarchar,
@@ -20,7 +20,7 @@ create sequence RECETTE_SEQ start with 1 increment by 1;
 
 create table INGREDIENT(
 	INGREDIENT_ID bigint not null primary key,
-	NOM varchar(30)
+	NOM varchar(30) unique
 );
 create sequence INGREDIENT_SEQ start with 1 increment by 1;
 

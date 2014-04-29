@@ -47,9 +47,9 @@ app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$locatio
     };
 }]);
 
-app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', 'Ingredient', function ($scope, Recette, $routeParams, Ingredient) {
+app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', function ($scope, Recette, $routeParams) {
     $scope.recette = Recette.get({id: $routeParams.id});
-    Ingredient.getIngredients($routeParams.id).then(function(ingdts) {
-    	$scope.ingredients = ingdts;
-    });
+//    Ingredient.getIngredients($routeParams.id).then(function(ingdts) {
+//    	$scope.ingredients = ingdts;
+//    });
 }]);

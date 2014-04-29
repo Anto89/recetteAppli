@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NaturalId;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -21,19 +23,24 @@ public class Ingredient implements Serializable {
 	private static final long serialVersionUID = 6218087596327098011L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "ingredient_seq_gen")
-	@SequenceGenerator(name = "ingredient_seq_gen", sequenceName = "INGREDIENT_SEQ")
-	@Column(name="INGREDIENT_ID")
+	@SequenceGenerator(name = "ingredient_seq_gen", sequenceName = "INGREDIENT_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_seq_gen")
+	@Column(name = "INGREDIENT_ID")
 	private Long id;
-	
-	@Column(name="NOM")
+
+	@NaturalId
+	@Column(name = "NOM")
 	private String nom;
-	
+
 	// Assoc.
-	@OneToMany(mappedBy="pk.ingredient")
+	@OneToMany(mappedBy = "pk.ingredient")
 	private List<RecetteIngredient> recettes = new ArrayList<RecetteIngredient>();
 
 	public Ingredient() {
+	}
+
+	public Ingredient(String nom) {
+		this.nom = nom;
 	}
 
 	public Long getId() {
@@ -64,5 +71,30 @@ public class Ingredient implements Serializable {
 
 	public void setRecettes(List<RecetteIngredient> recettes) {
 		this.recettes = recettes;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ingredient other = (Ingredient) obj;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		return true;
 	}
 }

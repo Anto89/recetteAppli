@@ -1,8 +1,6 @@
 package controller;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import model.Recette;
 
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import dao.RecetteDao;
+import dto.RecetteDto;
 
 @Controller
 public class RecetteController {
@@ -30,12 +29,12 @@ public class RecetteController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/recettes", consumes = "application/json")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void saveRecette(@RequestBody Recette recette) {
-		recetteDao.persist(recette);
+	public void saveRecette(@RequestBody RecetteDto recetteDto) {
+		recetteDao.persist(recetteDto);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}", produces = "application/json")
-	public @ResponseBody Recette getRecette(@PathVariable Long id) {
+	public @ResponseBody RecetteDto getRecette(@PathVariable Long id) {
 		return recetteDao.getById(id);
 	}
 
@@ -51,8 +50,8 @@ public class RecetteController {
 		recetteDao.update(recette);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}/ingredients", produces = "application/json")
-	public @ResponseBody Map<String, BigDecimal> getIngredientsForRecette(@PathVariable Long id) {
-		return recetteDao.getIngredients(id);
-	}
+//	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}/ingredients", produces = "application/json")
+//	public @ResponseBody Map<String, BigDecimal> getIngredientsForRecette(@PathVariable Long id) {
+//		return recetteDao.getIngredients(id);
+//	}
 }

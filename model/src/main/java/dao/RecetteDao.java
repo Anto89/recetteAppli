@@ -1,18 +1,18 @@
 package dao;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import model.Recette;
+import dto.RecetteDto;
 
-import org.springframework.stereotype.Repository;
-
-@Repository
 public interface RecetteDao {
 	List<Recette> getAll();
 	
-	Recette getById(Long id);
+	RecetteDto getById(Long id);
+	
+	Recette getByNaturalId(String nom);
+	
+	void persist(RecetteDto recetteDto);
 	
 	void persist(Recette recette);
 	
@@ -20,5 +20,5 @@ public interface RecetteDao {
 	
 	void update(Recette recette);
 	
-	Map<String, BigDecimal> getIngredients(Long recetteId);
+//	Map<String, BigDecimal> getIngredients(Long recetteId);
 }

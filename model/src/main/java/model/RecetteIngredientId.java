@@ -13,6 +13,14 @@ public class RecetteIngredientId implements Serializable {
 	@ManyToOne
 	private Ingredient ingredient;
 
+	public RecetteIngredientId() {
+	}
+
+	public RecetteIngredientId(Recette recette, Ingredient ingredient) {
+		this.recette = recette;
+		this.ingredient = ingredient;
+	}
+
 	public Recette getRecette() {
 		return recette;
 	}
@@ -33,8 +41,7 @@ public class RecetteIngredientId implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((ingredient == null) ? 0 : ingredient.hashCode());
+		result = prime * result + ((ingredient == null) ? 0 : ingredient.hashCode());
 		result = prime * result + ((recette == null) ? 0 : recette.hashCode());
 		return result;
 	}
