@@ -18,9 +18,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/client-servlet.xml</param-value>
 	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
 
 	<filter>
 		<filter-name>CharsetFilter</filter-name>

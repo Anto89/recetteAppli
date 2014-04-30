@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -28,9 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dto.RecetteDto;
+
+@ActiveProfiles("test")
 @ContextConfiguration(value = "classpath:appContext.xml")
 @RunWith(value = SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(transactionManager = "tm", defaultRollback = false)
+@TransactionConfiguration(transactionManager = "tm", defaultRollback = true)
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RecetteDaoTest {
@@ -62,6 +66,20 @@ public class RecetteDaoTest {
 	}
 
 	@Test
+	public void testGetById() throws IOException, URISyntaxException {
+		Ingredient farine = new Ingredient("farine");
+		ingDao.persist(farine);
+		Recette recette = buildRecetteFromFile("recettes/crepe.json").quantiteIngredients(farine, new BigDecimal(200)).build();
+		recDao.persist(recette);
+		em.flush();
+		em.clear();
+		
+		RecetteDto found = recDao.getById(recette.getId());
+		Assert.assertEquals(recette.getNom(), found.getNom());
+		Assert.assertEquals(recette.getIngredients().size(), found.getQuantiteIngredients().size());
+	}
+
+	@Test
 	public void testPersist() throws IOException, URISyntaxException {
 		Ingredient choco = new Ingredient("choco");
 		Ingredient farine = new Ingredient("farine");
@@ -76,8 +94,8 @@ public class RecetteDaoTest {
 		em.flush();
 		em.clear();
 
-		Recette founded = recDao.getByNaturalId(recette.getNom());
-		Assert.assertTrue(founded.getNom().equals(recette.getNom()));
-		Assert.assertTrue(founded.getQuantiteIngredient().size() == 3);
+		Recette found = recDao.getByNaturalId(recette.getNom());
+		Assert.assertTrue(found.getNom().equals(recette.getNom()));
+		Assert.assertTrue(found.getQuantiteIngredient().size() == 3);
 	}
 }

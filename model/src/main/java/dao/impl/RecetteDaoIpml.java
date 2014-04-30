@@ -33,7 +33,9 @@ public class RecetteDaoIpml implements RecetteDao {
 		RecetteDto recetteDto = new RecetteDto();
 		Recette recette = em.find(Recette.class, id);
 		BeanUtils.copyProperties(recette, recetteDto);
-		for (RecetteIngredient recIngt : recette.getQuantiteIngredient()) {
+		List<RecetteIngredient> quantiteIngredient = recette.getQuantiteIngredient();
+		System.out.println(quantiteIngredient.get(0));
+		for (RecetteIngredient recIngt : quantiteIngredient) {
 			recetteDto.addQuantiteIngredients(recIngt.getPk().getIngredient().getNom(), recIngt.getQuantite());
 		}
 		return recetteDto;
