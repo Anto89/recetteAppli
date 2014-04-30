@@ -38,7 +38,6 @@ import dto.RecetteDto;
 @Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RecetteDaoTest {
-
 	@Autowired
 	RecetteDao recDao;
 	@Autowired
@@ -73,7 +72,7 @@ public class RecetteDaoTest {
 		recDao.persist(recette);
 		em.flush();
 		em.clear();
-		
+
 		RecetteDto found = recDao.getById(recette.getId());
 		Assert.assertEquals(recette.getNom(), found.getNom());
 		Assert.assertEquals(recette.getIngredients().size(), found.getQuantiteIngredients().size());

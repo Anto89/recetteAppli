@@ -6,9 +6,13 @@ import java.util.Properties;
 import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.Server;
 import org.hsqldb.server.ServerAcl.AclFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
 
 public class HsqlDbServer implements SmartLifecycle {
+	final Logger logger = LoggerFactory.getLogger(HsqlDbServer.class);
+
 	private HsqlProperties properties;
 	private Server server;
 	private boolean running = false;
@@ -27,23 +31,23 @@ public class HsqlDbServer implements SmartLifecycle {
 	@Override
 	public void start() {
 		if (server == null) {
-			System.out.println("Starting HSQL server...");
+			logger.info("Starting HSQL server...");
 			server = new Server();
 			try {
 				server.setProperties(properties);
 				server.start();
 				running = true;
 			} catch (AclFormatException afe) {
-				System.out.println("Error starting HSQL server." + afe);
+				logger.info("Error starting HSQL server." + afe);
 			} catch (IOException e) {
-				System.out.println("Error starting HSQL server." + e);
+				logger.info("Error starting HSQL server." + e);
 			}
 		}
 	}
 
 	@Override
 	public void stop() {
-		System.out.println("Stopping HSQL server...");
+		logger.info("Stopping HSQL server...");
 		if (server != null) {
 			server.stop();
 			running = false;
