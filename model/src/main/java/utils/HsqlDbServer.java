@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
 
 public class HsqlDbServer implements SmartLifecycle {
-	final Logger logger = LoggerFactory.getLogger(HsqlDbServer.class);
+	final Logger logger = LoggerFactory.getLogger("utils.HsqlDbServer");
 
 	private HsqlProperties properties;
 	private Server server;

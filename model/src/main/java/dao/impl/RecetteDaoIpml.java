@@ -9,9 +9,11 @@ import model.Recette;
 import model.RecetteIngredient;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import dao.IngredientDao;
 import dao.RecetteDao;
 import dto.RecetteDto;
 
@@ -21,6 +23,8 @@ public class RecetteDaoIpml implements RecetteDao {
 
 	@PersistenceContext
 	EntityManager em;
+	@Autowired
+	IngredientDao ingredientDao;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -34,9 +38,8 @@ public class RecetteDaoIpml implements RecetteDao {
 		Recette recette = em.find(Recette.class, id);
 		BeanUtils.copyProperties(recette, recetteDto);
 		List<RecetteIngredient> quantiteIngredient = recette.getQuantiteIngredient();
-		System.out.println(quantiteIngredient.get(0));
 		for (RecetteIngredient recIngt : quantiteIngredient) {
-			recetteDto.addQuantiteIngredients(recIngt.getPk().getIngredient().getNom(), recIngt.getQuantite());
+			recetteDto.addQuantiteIngredients(recIngt.getPk().getIngredient(), recIngt.getQuantite());
 		}
 		return recetteDto;
 	}
@@ -50,6 +53,11 @@ public class RecetteDaoIpml implements RecetteDao {
 	public void persist(RecetteDto recetteDto) {
 		Recette recette = new Recette();
 		BeanUtils.copyProperties(recetteDto, recette);
+		
+//		for (QuantiteIngredientDto qteIngDto : recetteDto.getQuantiteIngredients()) {
+//			em.merge(qteIngDto.getIngredient());
+//		}
+		
 		em.persist(recette);
 	}
 

@@ -4,6 +4,7 @@ drop table RECETTE_INGREDIENT if exists cascade;
 drop sequence RECETTE_SEQ if exists;
 drop sequence INGREDIENT_SEQ if exists;
 
+SET DATABASE TEXT TABLE DEFAULTS 'all_quoted=true;encoding=UTF-8;cache_rows=10000;cache_size=2000'
 
 create table RECETTE
 (

@@ -1,8 +1,10 @@
 package dto;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Ingredient;
 
 public class RecetteDto {
 
@@ -14,7 +16,7 @@ public class RecetteDto {
 	private int difficulte;
 	private int avis;
 	private boolean vegetarien;
-	private Map<String, BigDecimal> quantiteIngredients = new HashMap<>();
+	private List<QuantiteIngredientDto> quantiteIngredients = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -80,11 +82,15 @@ public class RecetteDto {
 		this.vegetarien = vegetarien;
 	}
 
-	public Map<String, BigDecimal> getQuantiteIngredients() {
+	public List<QuantiteIngredientDto> getQuantiteIngredients() {
 		return quantiteIngredients;
 	}
 
-	public void addQuantiteIngredients(String ingredient, BigDecimal quantite) {
-		this.quantiteIngredients.put(ingredient, quantite);
+	public void addQuantiteIngredients(Ingredient ingredient, BigDecimal quantite) {
+		this.quantiteIngredients.add(new QuantiteIngredientDto(ingredient, quantite));
+	}
+
+	public void setQuantiteIngredients(List<QuantiteIngredientDto> quantiteIngredients) {
+		this.quantiteIngredients = quantiteIngredients;
 	}
 }

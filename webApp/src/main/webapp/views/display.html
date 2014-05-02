@@ -2,8 +2,8 @@
 	<h2 class="col-md-8">Détail</h2>
 	<fieldset class="col-md-4 span6">
 		<legend>Ingrédients</legend>
-		<ul data-ng-repeat="(ingredient, quantite) in recette.quantiteIngredients">
-			<li>{{quantite}} <span>-</span> {{ingredient}}</li>
+		<ul data-ng-repeat="qteIngdt in recette.quantiteIngredients">
+			<li>{{qteIngdt.quantite}} <span>-</span> {{qteIngdt.ingredient.nom}}</li>
 		</ul>
 	</fieldset>
 </div>

@@ -37,12 +37,12 @@
 			<div class="col-md-8">
 				<div class="form-group">
 					<label>Nom</label>
-					<input type="text" placeholder="…" data-ng-model="newIngredient.nom">
+					<input type="text" placeholder="…" data-ng-model="newIngredient.ingredient.nom">
 				</div>
 				<div class="form-group">
 					<label>Quantité</label>
 					<input type="text" size="2" placeholder="…" data-ng-model="newIngredient.quantite">
-					<select data-ng-model="newIngredient.unite" data-ng-options="u.nom as u.nom group by u.type for u in unites">
+					<select data-ng-model="unite" data-ng-options="u.nom as u.nom group by u.type for u in unites">
 						<option value="">-- Choisir l'unité --</option>
 					</select>
 				</div>
@@ -50,8 +50,8 @@
 				<button class="btn btn-success" data-ng-click="addIngredient()">OK</button>
 			</div>
 			<div class="col-md-4">
-			<ul class="list-unstyled" data-ng-repeat="ing in ingredients">
-			 	<li>{{ing.quantite}} {{ing.unite}} {{ing.nom}}<a href data-ng-click="ingredients.splice($index, 1)">&nbsp;<button type="button" class="close" aria-hidden="true">&times;</button></a></li>
+			<ul class="list-unstyled" data-ng-repeat="qteIngdt in qteIngdts">
+			 	<li>{{qteIngdt.quantite}} {{unite}} {{qteIngdt.ingredient.nom}}<a href data-ng-click="ingredients.splice($index, 1)">&nbsp;<button type="button" class="close" aria-hidden="true">&times;</button></a></li>
 			</ul>
 			</div>
 		</fieldset>

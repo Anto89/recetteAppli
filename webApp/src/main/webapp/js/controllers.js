@@ -17,8 +17,8 @@ app.controller('ListController', ['$scope', 'Recette', '$location', function ($s
 
 app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location) {
     $scope.recette = new Recette();
-    $scope.ingredients = [];
-    $scope.recette.ingdts = $scope.ingredients;
+    $scope.qteIngdts = [];
+    $scope.recette.quantiteIngredients = $scope.qteIngdts;
     $scope.saveRecette = function () {
     	Recette.save($scope.recette, function () {
             $location.path('/list');
@@ -33,7 +33,7 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
       
     $scope.unites = [{type:'volume', nom:'litre'}, {type:'poids', nom:'gramme'}];
     $scope.addIngredient = function() {
-    	$scope.ingredients.push($scope.newIngredient);
+    	$scope.qteIngdts.push($scope.newIngredient);
     	$scope.newIngredient = null;
     }
 }]);
