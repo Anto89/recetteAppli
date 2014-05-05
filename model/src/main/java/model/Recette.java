@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,7 @@ public class Recette implements Serializable {
 	@Column(name = "RECETTE_ID")
 	private Long id;
 
-	@NaturalId
+	@NaturalId(mutable = true)
 	@Column(name = "NOM")
 	private String nom;
 
@@ -62,7 +63,7 @@ public class Recette implements Serializable {
 	private boolean vegetarien;
 
 	// Assoc.
-	@OneToMany(mappedBy = "pk.recette", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pk.recette", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<RecetteIngredient> ingredients = new ArrayList<RecetteIngredient>();
 
 	public Recette() {
@@ -136,7 +137,7 @@ public class Recette implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<RecetteIngredient> getQuantiteIngredient() {
+	public List<RecetteIngredient> getQteIngredient() {
 		return ingredients;
 	}
 

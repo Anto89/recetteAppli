@@ -51,7 +51,7 @@
 			</div>
 			<div class="col-md-4">
 			<ul class="list-unstyled" data-ng-repeat="qteIngdt in qteIngdts">
-			 	<li>{{qteIngdt.quantite}} {{unite}} {{qteIngdt.ingredient.nom}}<a href data-ng-click="ingredients.splice($index, 1)">&nbsp;<button type="button" class="close" aria-hidden="true">&times;</button></a></li>
+			 	<li>{{qteIngdt.quantite}} {{unite}} {{qteIngdt.ingredient.nom}}<a href data-ng-click="qteIngdts.splice($index, 1)">&nbsp;<button type="button" class="close" aria-hidden="true">&times;</button></a></li>
 			</ul>
 			</div>
 		</fieldset>

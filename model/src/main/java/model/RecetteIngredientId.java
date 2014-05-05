@@ -3,14 +3,15 @@ package model;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Embeddable
 public class RecetteIngredientId implements Serializable {
 	private static final long serialVersionUID = -5759128945118040522L;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Recette recette;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Ingredient ingredient;
 
 	public RecetteIngredientId() {

@@ -23,18 +23,20 @@ public class RecetteController {
 	RecetteDao recetteDao;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/recettes", produces = "application/json")
-	public @ResponseBody List<Recette> getRecettes() {
+	public @ResponseBody
+	List<Recette> getRecettes() {
 		return recetteDao.getAll();
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/recettes", consumes = "application/json")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void saveRecette(@RequestBody RecetteDto recetteDto) {
-		recetteDao.persist(recetteDto);
+		recetteDao.save(recetteDto);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}", produces = "application/json")
-	public @ResponseBody RecetteDto getRecette(@PathVariable Long id) {
+	public @ResponseBody
+	RecetteDto getRecette(@PathVariable Long id) {
 		return recetteDao.getById(id);
 	}
 
@@ -46,12 +48,7 @@ public class RecetteController {
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/recettes/{id}", consumes = "application/json")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateRecette(@RequestBody Recette recette) {
-		recetteDao.update(recette);
+	public void updateRecette(@RequestBody RecetteDto recetteDto) {
+		recetteDao.update(recetteDto);
 	}
-
-//	@RequestMapping(method = RequestMethod.GET, value = "/recettes/{id}/ingredients", produces = "application/json")
-//	public @ResponseBody Map<String, BigDecimal> getIngredientsForRecette(@PathVariable Long id) {
-//		return recetteDao.getIngredients(id);
-//	}
 }

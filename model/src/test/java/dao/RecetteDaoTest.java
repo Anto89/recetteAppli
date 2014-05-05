@@ -56,7 +56,7 @@ public class RecetteDaoTest {
 	@Test
 	public void testGetAll() throws IOException, URISyntaxException {
 		Recette recette = buildRecetteFromFile("recettes/crepe.json").build();
-		recDao.persist(recette);
+		em.persist(recette);
 		em.flush();
 		em.clear();
 
@@ -69,7 +69,7 @@ public class RecetteDaoTest {
 		Ingredient farine = new Ingredient("farine");
 		ingDao.persist(farine);
 		Recette recette = buildRecetteFromFile("recettes/crepe.json").quantiteIngredients(farine, new BigDecimal(200)).build();
-		recDao.persist(recette);
+		em.persist(recette);
 		em.flush();
 		em.clear();
 
@@ -79,22 +79,28 @@ public class RecetteDaoTest {
 	}
 
 	@Test
-	public void testPersist() throws IOException, URISyntaxException {
+	public void testUpdate() throws IOException, URISyntaxException {
 		Ingredient choco = new Ingredient("choco");
 		Ingredient farine = new Ingredient("farine");
-		Ingredient beurre = new Ingredient("beurre");
 		ingDao.persist(choco);
 		ingDao.persist(farine);
-		ingDao.persist(beurre);
 
 		Recette recette = buildRecetteFromFile("recettes/moelleux_choco.json").quantiteIngredients(choco, new BigDecimal(200))
-				.quantiteIngredients(farine, new BigDecimal(200)).quantiteIngredients(beurre, new BigDecimal(200)).build();
-		recDao.persist(recette);
+				.quantiteIngredients(farine, new BigDecimal(200)).build();
+		em.persist(recette);
 		em.flush();
 		em.clear();
 
-		Recette found = recDao.getByNaturalId(recette.getNom());
-		Assert.assertTrue(found.getNom().equals(recette.getNom()));
-		Assert.assertTrue(found.getQuantiteIngredient().size() == 3);
+		Ingredient beurre = new Ingredient("beurre");
+		recette.setNom("moelleux ameliore");
+		recette.addIngredient(beurre, new BigDecimal(100L));
+		ingDao.persist(beurre);
+		em.merge(recette);
+		em.flush();
+		em.clear();
+
+		RecetteDto found = recDao.getById(recette.getId());
+		Assert.assertEquals(recette.getNom(), found.getNom());
+		Assert.assertEquals(recette.getIngredients().size(), found.getQuantiteIngredients().size());
 	}
 }

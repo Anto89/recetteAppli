@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 @Entity
 @Table(name = "INGREDIENT")
 public class Ingredient implements Serializable {
@@ -33,7 +36,7 @@ public class Ingredient implements Serializable {
 	private String nom;
 
 	// Assoc.
-	@OneToMany(mappedBy = "pk.ingredient")
+	@OneToMany(mappedBy = "pk.ingredient", fetch = FetchType.LAZY)
 	private List<RecetteIngredient> recettes = new ArrayList<RecetteIngredient>();
 
 	public Ingredient() {

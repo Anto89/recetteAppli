@@ -7,18 +7,14 @@ import dto.RecetteDto;
 
 public interface RecetteDao {
 	List<Recette> getAll();
-	
+
 	RecetteDto getById(Long id);
-	
+
 	Recette getByNaturalId(String nom);
-	
-	void persist(RecetteDto recetteDto);
-	
-	void persist(Recette recette);
-	
+
+	void save(RecetteDto recetteDto);
+
+	void update(RecetteDto recetteDto);
+
 	void remove(Long id);
-	
-	void update(Recette recette);
-	
-//	Map<String, BigDecimal> getIngredients(Long recetteId);
 }

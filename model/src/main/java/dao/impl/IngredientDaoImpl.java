@@ -19,7 +19,7 @@ public class IngredientDaoImpl implements IngredientDao {
 
 	@Override
 	public Ingredient getByNaturalId(String nom) {
-		return (Ingredient) em.createQuery("from Ingredient i where i.nom = :nom");
+		return (Ingredient) em.createQuery("from Ingredient i where i.nom = :nom").setParameter("nom", nom).getSingleResult();
 	}
 
 	@Override

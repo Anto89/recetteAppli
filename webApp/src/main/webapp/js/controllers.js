@@ -39,12 +39,20 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
 }]);
 
 app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location, $http) {
-    $scope.recette = Recette.get({id: $routeParams.id});
+    $scope.recette = Recette.get({id: $routeParams.id}, function() {
+    	$scope.qteIngdts = $scope.recette.quantiteIngredients;
+    });
     $scope.saveRecette = function () {
         Recette.update($scope.recette, function () {
             $location.path('/list');
         });
     };
+    
+    $scope.unites = [{type:'volume', nom:'litre'}, {type:'poids', nom:'gramme'}];
+    $scope.addIngredient = function() {
+    	$scope.qteIngdts.push($scope.newIngredient);
+    	$scope.newIngredient = null;
+    }
 }]);
 
 app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', function ($scope, Recette, $routeParams) {

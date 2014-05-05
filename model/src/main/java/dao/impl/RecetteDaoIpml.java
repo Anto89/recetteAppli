@@ -5,9 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import model.Ingredient;
 import model.Recette;
 import model.RecetteIngredient;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dao.IngredientDao;
 import dao.RecetteDao;
+import dto.QuantiteIngredientDto;
 import dto.RecetteDto;
 
 @Repository
@@ -37,8 +40,9 @@ public class RecetteDaoIpml implements RecetteDao {
 		RecetteDto recetteDto = new RecetteDto();
 		Recette recette = em.find(Recette.class, id);
 		BeanUtils.copyProperties(recette, recetteDto);
-		List<RecetteIngredient> quantiteIngredient = recette.getQuantiteIngredient();
+		List<RecetteIngredient> quantiteIngredient = recette.getQteIngredient();
 		for (RecetteIngredient recIngt : quantiteIngredient) {
+			Hibernate.initialize(recIngt.getPk().getIngredient());
 			recetteDto.addQuantiteIngredients(recIngt.getPk().getIngredient(), recIngt.getQuantite());
 		}
 		return recetteDto;
@@ -46,44 +50,39 @@ public class RecetteDaoIpml implements RecetteDao {
 
 	@Override
 	public Recette getByNaturalId(String nom) {
-		return (Recette) em.createQuery("from Recette i where i.nom = :nom").setParameter("nom", nom).getSingleResult();
+		return (Recette) em.createQuery("from Recette r where r.nom = :nom").setParameter("nom", nom).getSingleResult();
 	}
 
 	@Override
-	public void persist(RecetteDto recetteDto) {
+	public void save(RecetteDto recetteDto) {
 		Recette recette = new Recette();
 		BeanUtils.copyProperties(recetteDto, recette);
-		
-//		for (QuantiteIngredientDto qteIngDto : recetteDto.getQuantiteIngredients()) {
-//			em.merge(qteIngDto.getIngredient());
-//		}
-		
+		for (QuantiteIngredientDto qteIngDto : recetteDto.getQuantiteIngredients()) {
+			recette.addIngredient(em.merge(qteIngDto.getIngredient()), qteIngDto.getQuantite());
+		}
 		em.persist(recette);
 	}
 
-	@Override
-	public void persist(Recette recette) {
-		em.persist(recette);
+	public void update(RecetteDto recetteDto) {
+		Recette recette = new Recette();
+		BeanUtils.copyProperties(recetteDto, recette);
+
+		// Mise à jour de l'association avec les ingrédients + Ajout de
+		// l'ingrédient si pas déjà existant.
+		List<QuantiteIngredientDto> qteIngdts = recetteDto.getQuantiteIngredients();
+		for (QuantiteIngredientDto qteIngdt : qteIngdts) {
+			Ingredient ingdt = ingredientDao.getByNaturalId(qteIngdt.getIngredient().getNom());
+			if (ingdt == null) {
+				em.persist(ingdt);
+			}
+			recette.addIngredient(ingdt, qteIngdt.getQuantite());
+		}
+
+		em.merge(recette);
 	}
 
 	@Override
 	public void remove(Long id) {
-		em.remove(getById(id));
+		em.remove(em.find(Recette.class, id));
 	}
-
-	@Override
-	public void update(Recette recette) {
-		em.merge(recette);
-	}
-
-	// @Override
-	// public Map<String, BigDecimal> getIngredients(Long recetteId) {
-	// Recette recette = getById(recetteId);
-	// Map<String, BigDecimal> qteIngredient = new HashMap<>();
-	// for (RecetteIngredient recIngt : recette.getQuantiteIngredient()) {
-	// qteIngredient.put(recIngt.getPk().getIngredient().getNom(),
-	// recIngt.getQuantite());
-	// }
-	// return qteIngredient;
-	// }
 }
