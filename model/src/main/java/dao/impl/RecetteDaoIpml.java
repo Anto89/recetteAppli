@@ -73,7 +73,7 @@ public class RecetteDaoIpml implements RecetteDao {
 		for (QuantiteIngredientDto qteIngdt : qteIngdts) {
 			Ingredient ingdt = ingredientDao.getByNaturalId(qteIngdt.getIngredient().getNom());
 			if (ingdt == null) {
-				em.persist(ingdt);
+				em.persist(qteIngdt.getIngredient());
 			}
 			recette.addIngredient(ingdt, qteIngdt.getQuantite());
 		}

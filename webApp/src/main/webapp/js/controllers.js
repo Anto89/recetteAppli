@@ -15,10 +15,17 @@ app.controller('ListController', ['$scope', 'Recette', '$location', function ($s
     $scope.order = 'nom';
 }]);
 
-app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location) {
+app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location', '$http', function ($scope, Recette, $routeParams, $location, $http) {
     $scope.recette = new Recette();
     $scope.qteIngdts = [];
     $scope.recette.quantiteIngredients = $scope.qteIngdts;
+    
+    // Tous les ingredients.
+    $scope.ingredientsList = []; 
+    $http.get('./ingredients').then(function(result) {
+    	 $scope.ingredientsList = result.data;
+	});
+    
     $scope.saveRecette = function () {
     	Recette.save($scope.recette, function () {
             $location.path('/list');
@@ -38,7 +45,7 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
     }
 }]);
 
-app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', function ($scope, Recette, $routeParams, $location, $http) {
+app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', '$http', function ($scope, Recette, $routeParams, $location, $http) {
     $scope.recette = Recette.get({id: $routeParams.id}, function() {
     	$scope.qteIngdts = $scope.recette.quantiteIngredients;
     });
@@ -53,6 +60,12 @@ app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$locatio
     	$scope.qteIngdts.push($scope.newIngredient);
     	$scope.newIngredient = null;
     }
+    
+    // Tous les ingredients.
+    $scope.ingredientsList = []; 
+    $http.get('./ingredients').then(function(result) {
+    	 $scope.ingredientsList = result.data;
+	});
 }]);
 
 app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', function ($scope, Recette, $routeParams) {

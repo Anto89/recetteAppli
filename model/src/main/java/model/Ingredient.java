@@ -14,11 +14,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 @Entity
 @Table(name = "INGREDIENT")

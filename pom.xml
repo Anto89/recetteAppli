@@ -44,6 +44,7 @@
 					<configuration>
 						<wtpapplicationxml>true</wtpapplicationxml>
 						<wtpversion>2.0</wtpversion>
+						<downloadJavadocs>true</downloadJavadocs>
 					</configuration>
 				</plugin>
 				<plugin>

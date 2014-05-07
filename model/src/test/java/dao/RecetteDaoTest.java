@@ -16,6 +16,7 @@ import model.Recette;
 import model.Recette.RecetteBuilder;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,6 +47,11 @@ public class RecetteDaoTest {
 	EntityManager em;
 
 	Map<String, Object> data = null;
+
+	@BeforeClass
+	public static void init() {
+		System.setProperty("net.sf.ehcache.disabled", Boolean.TRUE.toString());
+	}
 
 	private RecetteBuilder buildRecetteFromFile(String name) throws IOException, URISyntaxException {
 		byte[] jsonData = Files.readAllBytes(Paths.get(Thread.currentThread().getContextClassLoader().getResource(name).toURI()));
