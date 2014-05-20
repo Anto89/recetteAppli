@@ -20,6 +20,9 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
     $scope.qteIngdts = [];
     $scope.recette.quantiteIngredients = $scope.qteIngdts;
     
+    $scope.steps = ['descriptif', 'ingredients'];
+    $scope.step = 0;
+    
     // Tous les ingredients.
     $scope.ingredientsList = []; 
     $http.get('./ingredients').then(function(result) {
@@ -43,6 +46,42 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
     	$scope.qteIngdts.push($scope.newIngredient);
     	$scope.newIngredient = null;
     }
+    
+    $scope.isCurrentStep = function(step) {
+      return $scope.step === step;
+    };
+
+    $scope.setCurrentStep = function(step) {
+      $scope.step = step;
+    };
+
+    $scope.getCurrentStep = function() {
+      return $scope.steps[$scope.step];
+    };
+    
+    $scope.isFirstStep = function() {
+        return $scope.step === 0;
+    };
+
+    $scope.isLastStep = function() {
+        return $scope.step === ($scope.steps.length - 1);
+    };
+
+    $scope.getNextLabel = function() {
+        return ($scope.isLastStep()) ? 'Submit' : 'Next';
+    };
+
+    $scope.handlePrevious = function() {
+        $scope.step -= ($scope.isFirstStep()) ? 0 : 1;
+    };
+
+    $scope.handleNext = function() {
+        if($scope.isLastStep()) {
+            alert("Call validation");
+        } else {
+            $scope.step += 1;
+        }
+    };
 }]);
 
 app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', '$http', function ($scope, Recette, $routeParams, $location, $http) {

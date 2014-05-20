@@ -22,6 +22,12 @@
     	height: 22px;
     	width: auto;
     }
+    .formBorder{
+	    -moz-box-shadow: 0 0 5px 5px #888;
+	    -webkit-box-shadow: 0 0 5px 5px#888;
+	    box-shadow: 0 0 5px 5px #888;
+	    margin:auto;
+    }
     </style>
 </head>
 <body>
