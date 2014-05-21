@@ -17,11 +17,9 @@ app.controller('ListController', ['$scope', 'Recette', '$location', function ($s
 
 app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location', '$http', function ($scope, Recette, $routeParams, $location, $http) {
     $scope.recette = new Recette();
+    $scope.newIngredient = {};
     $scope.qteIngdts = [];
     $scope.recette.quantiteIngredients = $scope.qteIngdts;
-    
-    $scope.steps = ['descriptif', 'ingredients'];
-    $scope.step = 0;
     
     // Tous les ingredients.
     $scope.ingredientsList = []; 
@@ -44,47 +42,15 @@ app.controller('AddController', ['$scope', 'Recette', '$routeParams', '$location
     $scope.unites = [{type:'volume', nom:'litre'}, {type:'poids', nom:'gramme'}];
     $scope.addIngredient = function() {
     	$scope.qteIngdts.push($scope.newIngredient);
-    	$scope.newIngredient = null;
+    	$scope.newIngredient = {};
     }
     
-    $scope.isCurrentStep = function(step) {
-      return $scope.step === step;
-    };
-
-    $scope.setCurrentStep = function(step) {
-      $scope.step = step;
-    };
-
-    $scope.getCurrentStep = function() {
-      return $scope.steps[$scope.step];
-    };
-    
-    $scope.isFirstStep = function() {
-        return $scope.step === 0;
-    };
-
-    $scope.isLastStep = function() {
-        return $scope.step === ($scope.steps.length - 1);
-    };
-
-    $scope.getNextLabel = function() {
-        return ($scope.isLastStep()) ? 'Submit' : 'Next';
-    };
-
-    $scope.handlePrevious = function() {
-        $scope.step -= ($scope.isFirstStep()) ? 0 : 1;
-    };
-
-    $scope.handleNext = function() {
-        if($scope.isLastStep()) {
-            alert("Call validation");
-        } else {
-            $scope.step += 1;
-        }
-    };
+    $scope.wizard = new Wizard(0, ['descriptif', 'ingredients'], $scope.saveRecette); 
 }]);
 
 app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$location', '$http', function ($scope, Recette, $routeParams, $location, $http) {
+	$scope.newIngredient = {};
+	
     $scope.recette = Recette.get({id: $routeParams.id}, function() {
     	$scope.qteIngdts = $scope.recette.quantiteIngredients;
     });
@@ -97,7 +63,7 @@ app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$locatio
     $scope.unites = [{type:'volume', nom:'litre'}, {type:'poids', nom:'gramme'}];
     $scope.addIngredient = function() {
     	$scope.qteIngdts.push($scope.newIngredient);
-    	$scope.newIngredient = null;
+    	$scope.newIngredient = {};
     }
     
     // Tous les ingredients.
@@ -105,6 +71,8 @@ app.controller('EditController', ['$scope', 'Recette', '$routeParams', '$locatio
     $http.get('./ingredients').then(function(result) {
     	 $scope.ingredientsList = result.data;
 	});
+    
+    $scope.wizard = new Wizard(0, ['descriptif', 'ingredients'], $scope.saveRecette);
 }]);
 
 app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', function ($scope, Recette, $routeParams) {
@@ -113,3 +81,49 @@ app.controller('DisplayController', ['$scope', 'Recette', '$routeParams', functi
 //    	$scope.ingredients = ingdts;
 //    });
 }]);
+
+var Wizard = function() {
+	// constructor
+    var wizard = function(firstStep, stepNames, validatingFunc) {
+		this.step = firstStep;
+		this.steps = stepNames;
+		this.validatingFunc = validatingFunc;
+	};
+
+    // prototype
+	wizard.prototype = {
+        constructor: wizard
+    };
+	
+	wizard.prototype.isCurrentStep = function(clickedStep) {
+	      return this.step === clickedStep;
+	};
+	wizard.prototype.setCurrentStep = function(clickedStep) {
+		this.step = clickedStep;
+    };
+    wizard.prototype.getCurrentStep = function() {
+      return this.steps[this.step];
+    };
+    
+    wizard.prototype.isFirstStep = function() {
+        return this.step === 0;
+    };
+    wizard.prototype.isLastStep = function() {
+        return this.step === (this.steps.length - 1);
+    };
+    wizard.prototype.getNextLabel = function() {
+        return (this.isLastStep()) ? 'Submit' : 'Next';
+    };
+    wizard.prototype.handlePrevious = function() {
+    	this.step -= (this.isFirstStep()) ? 0 : 1;
+    };
+    wizard.prototype.handleNext = function() {
+        if(this.isLastStep()) {
+        	this.validatingFunc();
+        } else {
+        	this.step += 1;
+        }
+    };
+    
+    return wizard;
+}();

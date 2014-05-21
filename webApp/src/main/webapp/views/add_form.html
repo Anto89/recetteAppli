@@ -1,0 +1,78 @@
+<div class="btn-group">
+    <button class="btn" data-ng-class="{'btn-primary':wizard.isCurrentStep(0)}" data-ng-click="wizard.setCurrentStep(0)">Descriptif</button>
+    <button class="btn" data-ng-class="{'btn-primary':wizard.isCurrentStep(1)}" data-ng-click="wizard.setCurrentStep(1)">Ingrédients</button>
+</div>
+
+<form>
+	<div class="row slide-frame formBorder" data-ng-switch="wizard.getCurrentStep()">
+		<aside class="col-md-2"></aside>
+		<section data-ng-switch-when="descriptif" class="col-md-8">
+		    <h2 style="text-align: center;">Editer la recette</h2>
+		    <article class="form-group">
+		        <label for="nom">Nom</label>
+		        <input id="nom" class="form-control" type="text" name="nom" data-ng-model="recette.nom"/>
+		    </article>
+		    
+		    <article class="form-group">
+		        <label for="categorie">Catégorie</label>
+		        <input id="categorie" class="form-control" type="text" name="categorie" data-ng-model="recette.categorie"/>
+		    </article>
+		    
+		    <article class="form-group">
+		        <label for="difficulte">Difficulté</label>
+		        <rating value="difficulte" max="rateDifficulteMax" readonly="false" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+		        <span class="label" data-ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+		    </article>
+		    
+		    <article class="form-group">
+		        <label for="avis">Avis</label>
+		        <input id="avis" class="form-control" type="text" name="avis" data-ng-model="recette.avis"/>
+		    </article>
+		
+		    <article class="form-group">
+		        <label for="description">Description</label>
+		        <textarea id="description" class="form-control" name="description" data-ng-model="recette.description"></textarea>
+		    </article>
+		</section>
+		    
+	    <section data-ng-switch-when="ingredients" class="col-md-8">
+	    	<h2 style="text-align: center;">Ajouter les ingrédients</h2>
+	    	
+	    	<section style="display: table; width: 100%">
+		    	<section style="display: table-row;">
+					<section style="display: table-cell; width: 50%;">
+						<article class="form-group">
+							<label for="nom">Nom</label>
+							<input type="text" name="nom" class="form-control" style="width:200px;" placeholder="…" list="ingredients" data-ng-model="newIngredient.ingredient.nom">
+							<datalist id="ingredients">
+								<option data-ng-repeat="ingdt in ingredientsList" label="{{ingdt.nom}}" value="{{ingdt.nom}}" />
+							</datalist>
+						</article>
+						
+						<article class="form-group">
+							<label style="display:block;">Quantité</label>
+							<input type="text" class="form-control" style="width:100px; display:inline;" placeholder="…" data-ng-model="newIngredient.quantite">
+							<select class="form-control" style="width:200px; display:inline;" data-ng-model="unite" data-ng-options="u.nom as u.nom group by u.type for u in unites">
+								<option value="">-- Choisir l'unité --</option>
+							</select>
+						</article>
+					</section>
+					
+					<article style="display: table-cell; width: 10%; vertical-align: middle; text-align: center;"><img style="width:60px" src="image/arrow.jpg" data-ng-click="addIngredient()"></article>
+					
+					<section style="display: table-cell; width: 40%; padding-left: 50px;">
+					<ul class="list-unstyled" data-ng-repeat="qteIngdt in qteIngdts">
+					 	<li>{{qteIngdt.quantite}} {{unite}} {{qteIngdt.ingredient.nom}}<a href data-ng-click="qteIngdts.splice($index, 1)">&nbsp;<button type="button" class="close" aria-hidden="true">&times;</button></a></li>
+					</ul>
+					</section>
+				</section>
+			</section>
+	    </section>
+		<aside class="col-md-2"></aside>
+	</div>
+</form>
+
+<div class="modal-footer">
+	<a class="btn" data-ng-click="wizard.handlePrevious()" data-ng-show="!wizard.isFirstStep()">Back</a>
+	<a class="btn btn-primary" data-ng-click="wizard.handleNext()">{{wizard.getNextLabel()}}</a>
+</div>

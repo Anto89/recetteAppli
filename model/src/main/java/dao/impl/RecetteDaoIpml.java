@@ -58,7 +58,7 @@ public class RecetteDaoIpml implements RecetteDao {
 		Recette recette = new Recette();
 		BeanUtils.copyProperties(recetteDto, recette);
 		for (QuantiteIngredientDto qteIngDto : recetteDto.getQuantiteIngredients()) {
-			recette.addIngredient(em.merge(qteIngDto.getIngredient()), qteIngDto.getQuantite());
+			recette.addIngredient(mergeOrPersistIngredient(qteIngDto.getIngredient()), qteIngDto.getQuantite());
 		}
 		em.persist(recette);
 	}
@@ -70,15 +70,20 @@ public class RecetteDaoIpml implements RecetteDao {
 		// Mise à jour de l'association avec les ingrédients + Ajout de
 		// l'ingrédient si pas déjà existant.
 		List<QuantiteIngredientDto> qteIngdts = recetteDto.getQuantiteIngredients();
-		for (QuantiteIngredientDto qteIngdt : qteIngdts) {
-			Ingredient ingdt = ingredientDao.getByNaturalId(qteIngdt.getIngredient().getNom());
-			if (ingdt == null) {
-				em.persist(qteIngdt.getIngredient());
-			}
-			recette.addIngredient(ingdt, qteIngdt.getQuantite());
+		for (QuantiteIngredientDto qteIngdtDto : qteIngdts) {
+			recette.addIngredient(mergeOrPersistIngredient(qteIngdtDto.getIngredient()), qteIngdtDto.getQuantite());
 		}
 
 		em.merge(recette);
+	}
+
+	private Ingredient mergeOrPersistIngredient(Ingredient ingdt) {
+		Ingredient existingIngdt = ingredientDao.getByNaturalId(ingdt.getNom());
+		if (existingIngdt == null) {
+			em.persist(ingdt);
+			return ingdt; 
+		}
+		return existingIngdt;
 	}
 
 	@Override
